@@ -36,6 +36,7 @@ module.exports = function(sails) {
       logger = new winston.Logger({
         transports: [new winston.transports.Console(consoleOptions)]
       });
+      logger.setLevels({ silent: 0, error: 1, warn: 2, debug: 3, info: 4, verbose: 5, silly: 6 });
 
       // Custom Transport
       // More information: https://github.com/winstonjs/winston/blob/master/docs/transports.md
