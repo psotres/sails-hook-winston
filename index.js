@@ -3,7 +3,7 @@
 var winston = require('winston');
 var moment = require('moment');
 var path = require('path');
-var captain = require(path.resolve('node_modules/sails/node_modules/captains-log'));
+var captain = require('captains-log');
 var buildShipFn = require(path.resolve('node_modules/sails/lib/hooks/logger/ship'));
 
 module.exports = function(sails) {
