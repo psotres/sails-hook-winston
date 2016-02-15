@@ -1,26 +1,26 @@
 'use strict';
 
-var winston     = require('winston');
-var path        = require('path');
-var mkdirp      = require('mkdirp');
-var captain     = require(path.resolve('node_modules/sails/node_modules/captains-log'));
+var winston = require('winston');
+var moment = require('moment');
+var path = require('path');
+var captain = require(path.resolve('node_modules/sails/node_modules/captains-log'));
 var buildShipFn = require(path.resolve('node_modules/sails/lib/hooks/logger/ship'));
 
 module.exports = function(sails) {
   return {
     ready: false,
     initialize: function(done) {
-      var log;
-      var logger;
-      var consoleOptions;
-      var captainsOptions = sails.config.log;
+      let log;
+      let logger;
+      let consoleOptions;
+      let captainsOptions = sails.config.log;
 
       consoleOptions = {
         level: sails.config.log.level,
         formatter: function(options) {
-          var message;
+          let message = '';
           if (sails.config.log.timestamp) {
-            message = Date();
+            message = sails.config.log.timestampFormat ? moment().format(sails.config.log.timestampFormat) : moment().format('LLLL');
             message += ' ';
           } else {
             message = '';
@@ -33,7 +33,9 @@ module.exports = function(sails) {
       };
 
       // Console Transport
-      logger = new winston.Logger({transports: [new winston.transports.Console(consoleOptions)]});
+      logger = new winston.Logger({
+        transports: [new winston.transports.Console(consoleOptions)]
+      });
 
       // Custom Transport
       // More information: https://github.com/winstonjs/winston/blob/master/docs/transports.md
@@ -43,6 +45,7 @@ module.exports = function(sails) {
         });
       }
 
+      sails.config.log.level = "silly";
       sails.config.log.custom = logger;
 
       captainsOptions.custom = logger;
