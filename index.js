@@ -45,7 +45,6 @@ module.exports = function(sails) {
         });
       }
 
-      sails.config.log.level = "silly";
       sails.config.log.custom = logger;
 
       captainsOptions.custom = logger;
