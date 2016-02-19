@@ -3,8 +3,15 @@
 var winston = require('winston');
 var moment = require('moment');
 var path = require('path');
-var captain = require('captains-log');
 var buildShipFn = require(path.resolve('node_modules/sails/lib/hooks/logger/ship'));
+var captain;
+try {
+  // Retrieve captains-log module from sails package (npm@2 structure)
+  captain = require(path.resolve('node_modules/sails/node_modules/captains-log'));
+} catch (e) {
+  // Fallback to npm@3 structure
+  captain = require('captains-log')
+}
 
 module.exports = function(sails) {
   return {
